@@ -167,22 +167,14 @@ C    0    7 2389    0    0 0.0029215359
 D    0    0    6 2245    1 0.0031083481
 E    0    0    0    5 2520 0.0019801980
 
-
-
 RF Classification into 500 trees and 27 Splits
 ## Evaluate and validate the model obtained
-
 library(caret)
 preds <- predict(fit, newdata=ptrain2, call. = FALSE)
-confusionMatrix(preds, ptrain2$classe)
-
 ## Results For RF Model:
-
 The accuracy of RF is 0.998 and the out-of-sample-error is 0.002
 The best results for RF model, So we will use it for the validation step
-
 ## Re-training the model
-
 nzv <- nearZeroVar(training_Raw)
 training_Raw <- ptrain1[, -nzv]
 testing_Raw <- testing_Raw[, -nzv]
@@ -196,33 +188,25 @@ testing_Raw <- testing_Raw[, -(1:5)]
 
 ## Cross Validation 
 ## Refit model using full training set
-
 fitControl <- trainControl(method="cv", number=3, verboseIter=F)
 fit <- train(classe ~ ., data=training_Raw, method="rf", trControl=fitControl)
 
 ## Testing or Predict 20 different test cases 
-
-```{r}
 Submission <- predict(fit, newdata=testing_Raw)
 Submission
-```
 
 [1] B A B A A E D B A A B C B A E E A B B B
 Levels: A B C D E
 
 2- Decision Tree Model
-
-```{r}
 library(rpart)
 library(rpart.plot)
 library(RColorBrewer)
 library(rattle)
 library(MASS)
 library(caret)
-```
 
 ## Cross Validation
-
 subSamples <- createDataPartition(y=training_Raw$classe, p=0.70, list=FALSE)
 subTraining <- training_Raw[subSamples, ] 
 subTesting <- training_Raw[-subSamples, ]
@@ -232,7 +216,6 @@ fancyRpartPlot(FitDT)
 
 predictTreeMod1 <- predict(FitDT, subTesting, type = "class")
 rpart.plot(modFitDT, main="Classification Tree", extra=102, under=TRUE, faclen=0)
-```
 
 ## Result for DT Model:
 DT model has low accuracy (0.6967) and out-of-sample-error is about (0.3).
