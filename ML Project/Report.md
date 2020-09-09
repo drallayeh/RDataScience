@@ -172,12 +172,9 @@ E    0    0    0    5 2520 0.0019801980
 RF Classification into 500 trees and 27 Splits
 ## Evaluate and validate the model obtained
 
-```{r}
 library(caret)
 preds <- predict(fit, newdata=ptrain2, call. = FALSE)
-CMRF <- confusionMatrix(preds, ptrain2$classe, )
-CMRF
-```
+confusionMatrix(preds, ptrain2$classe)
 
 ## Results For RF Model:
 
@@ -186,7 +183,6 @@ The best results for RF model, So we will use it for the validation step
 
 ## Re-training the model
 
-```{r}
 nzv <- nearZeroVar(training_Raw)
 training_Raw <- ptrain1[, -nzv]
 testing_Raw <- testing_Raw[, -nzv]
@@ -197,13 +193,12 @@ testing_Raw <- testing_Raw[, mostlyNA==F]
 
 training_Raw <- training_Raw[, -(1:5)]
 testing_Raw <- testing_Raw[, -(1:5)]
-```
+
 ## Cross Validation 
 ## Refit model using full training set
-```{r}
+
 fitControl <- trainControl(method="cv", number=3, verboseIter=F)
 fit <- train(classe ~ ., data=training_Raw, method="rf", trControl=fitControl)
-```
 
 ## Testing or Predict 20 different test cases 
 
@@ -237,8 +232,6 @@ fancyRpartPlot(FitDT)
 
 predictTreeMod1 <- predict(FitDT, subTesting, type = "class")
 rpart.plot(modFitDT, main="Classification Tree", extra=102, under=TRUE, faclen=0)
-CMDT <- confusionMatrix(predictTreeMod1, subTesting$classe)
-CMDT
 ```
 
 ## Result for DT Model:
